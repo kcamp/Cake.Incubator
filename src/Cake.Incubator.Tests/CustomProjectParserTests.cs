@@ -41,6 +41,7 @@ namespace Cake.Incubator.Tests
         private readonly FakeFile valid2017CsProjNetstandardFile;
         private readonly FakeFile validCsProjConditionalReferenceFile;
         private readonly FakeFile validCsProjWithAbsoluteFilePaths;
+        private readonly FakeFile wildcardCsProj;
         
 
         public CustomProjectParserTests()
@@ -53,6 +54,14 @@ namespace Cake.Incubator.Tests
             anotherValidFile = new FakeFile(Resources.AnotherCSProj);
             validCsProjWebApplicationFile = new FakeFile(Resources.CsProj_ValidWebApplication);
             validCsProjWithAbsoluteFilePaths = new FakeFile(Resources.CsProj_AbsolutePath);
+            wildcardCsProj = new FakeFile(Resources.CsProj_Wildcards);
+        }
+
+        [Fact]
+        public void CustomProjectParser_CanParseCsProjFile_WithWildCardIncludes()
+        {
+            var result = wildcardCsProj.ParseProjectFile("debug");
+            result.Files.Should().NotContain(x => x.FilePath.Path.Contains("**"));
         }
 
         [Fact]
